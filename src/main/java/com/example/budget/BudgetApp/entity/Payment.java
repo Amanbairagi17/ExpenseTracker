@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
+import java.time.LocalDateTime;
+
 public class Payment {
     @Id
     @Column(nullable = false)
@@ -18,5 +20,12 @@ public class Payment {
     @Column(nullable = false)
     private double amount;
 
+    @Column(nullable = false)
+    private LocalDateTime paymentDateTime;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(nullable = false)
     private String paymentDescription;
 }
