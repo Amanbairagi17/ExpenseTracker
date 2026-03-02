@@ -30,7 +30,7 @@ public class Group {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "group_admin", nullable = false)
-    private User admin;
+    private User groupAdmin;
 
     private String groupDescription;
 }
