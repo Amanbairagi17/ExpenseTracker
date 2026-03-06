@@ -7,6 +7,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public  ResponseEntity<String> userNotFoundException(UserNotFoundException userNotFoundException){
+        return ResponseEntity.badRequest().body(userNotFoundException.getMessage());
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRunTimeException(RuntimeException exception){
         return ResponseEntity.badRequest().body(exception.getMessage());
