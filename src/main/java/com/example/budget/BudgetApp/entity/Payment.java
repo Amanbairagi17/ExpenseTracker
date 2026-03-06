@@ -8,20 +8,23 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "payments")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class Payment {
+
     @Id
-    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int transactionId;
+    private Long transactionId;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
-    private  Group group;
+    @JoinColumn(name = "group_id")
+    private Group group;
 
     @Column(nullable = false)
     private double amount;

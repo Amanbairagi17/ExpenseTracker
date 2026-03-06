@@ -7,11 +7,10 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
-@Component
 @Data
 public class PaymentRequestDto {
-    private User userId;
-    private Group groupId;
+    private Long userId;
+    private Long groupId;
     private double amount;
     private String paymentDescription;
     private LocalDateTime paymentDateTime;

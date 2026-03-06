@@ -8,5 +8,5 @@ import org.springframework.stereotype.Component;
 @Component
 public interface UserMapper {
     public User toUser(UserRequestDto user);
-    public UserResponseDto fromUserDro(User u);
+    public UserResponseDto fromUserDto(User u);
 }

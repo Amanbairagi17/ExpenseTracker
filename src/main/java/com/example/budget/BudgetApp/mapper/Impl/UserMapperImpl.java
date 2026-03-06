@@ -4,7 +4,10 @@ import com.example.budget.BudgetApp.dto.UserRequestDto;
 import com.example.budget.BudgetApp.dto.UserResponseDto;
 import com.example.budget.BudgetApp.entity.User;
 import com.example.budget.BudgetApp.mapper.UserMapper;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class UserMapperImpl implements UserMapper {
     @Override
     public User toUser(UserRequestDto requestDto) {
@@ -15,7 +18,7 @@ public class UserMapperImpl implements UserMapper {
     }
 
     @Override
-    public UserResponseDto fromUserDro(User user) {
+    public UserResponseDto fromUserDto(User user) {
         UserResponseDto userResponseDto = new UserResponseDto();
         userResponseDto.setUserId(user.getUserId());
         userResponseDto.setEmail(user.getEmail());

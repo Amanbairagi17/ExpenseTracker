@@ -8,14 +8,15 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
+@Table(name = "user_groups")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Group {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int groupId;
+    private Long groupId;
 
     @Column(nullable = false)
     private String groupName;
