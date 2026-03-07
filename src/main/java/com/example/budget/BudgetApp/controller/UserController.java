@@ -5,7 +5,6 @@ import com.example.budget.BudgetApp.dto.UserRequestDto;
 import com.example.budget.BudgetApp.dto.UserResponseDto;
 import com.example.budget.BudgetApp.dto.UserUpdateRequestDto;
 import com.example.budget.BudgetApp.dto.UserUpdateResponseDto;
-import com.example.budget.BudgetApp.mapper.UserUpdateMapper;
 import com.example.budget.BudgetApp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
