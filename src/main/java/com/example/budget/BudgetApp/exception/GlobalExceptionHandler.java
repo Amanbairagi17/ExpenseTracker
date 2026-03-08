@@ -13,6 +13,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(userNotFoundException.getMessage());
     }
 
+    @ExceptionHandler(GroupNotFoundException.class)
+    public ResponseEntity<String> groupNotFoundException(GroupNotFoundException groupNotFoundException){
+        return ResponseEntity.badRequest().body(groupNotFoundException.getMessage());
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRunTimeException(RuntimeException exception){
         return ResponseEntity.badRequest().body(exception.getMessage());
