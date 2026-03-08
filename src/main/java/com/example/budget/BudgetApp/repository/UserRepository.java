@@ -2,9 +2,15 @@ package com.example.budget.BudgetApp.repository;
 
 import com.example.budget.BudgetApp.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     void deleteById(Long userId);
+
+    @Query("SELECT u FROM User u")
+    List<User> getAllUsers();
 }

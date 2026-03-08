@@ -14,6 +14,8 @@ import com.example.budget.BudgetApp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -36,6 +38,12 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto findUserById(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User Not Found with Id " + userId));
         return userResponseMapper.mapTo(user);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        List<User> users = userRepository.getAllUsers();
+        return users;
     }
 
     @Override

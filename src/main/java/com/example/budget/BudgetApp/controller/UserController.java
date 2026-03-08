@@ -5,11 +5,14 @@ import com.example.budget.BudgetApp.dto.UserRequestDto;
 import com.example.budget.BudgetApp.dto.UserResponseDto;
 import com.example.budget.BudgetApp.dto.UserUpdateRequestDto;
 import com.example.budget.BudgetApp.dto.UserUpdateResponseDto;
+import com.example.budget.BudgetApp.entity.User;
 import com.example.budget.BudgetApp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "user")
@@ -18,16 +21,21 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping
+    @GetMapping("check")
     public String user(){
         return "First user of this app";
     }
 
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUser(){
+        List<User> users = userService.getAllUsers();
+        return ResponseEntity.status(HttpStatus.OK).body(users);
+    }
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long userId){
         UserResponseDto userResponseDto = userService.findUserById(userId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDto);
+        return ResponseEntity.status(HttpStatus.OK).body(userResponseDto);
     }
 
     @PostMapping
