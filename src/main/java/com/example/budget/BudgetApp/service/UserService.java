@@ -4,7 +4,6 @@ import com.example.budget.BudgetApp.dto.UserRequestDto;
 import com.example.budget.BudgetApp.dto.UserResponseDto;
 import com.example.budget.BudgetApp.dto.UserUpdateRequestDto;
 import com.example.budget.BudgetApp.dto.UserUpdateResponseDto;
-import org.springframework.stereotype.Service;
 
 public interface UserService {
 
@@ -13,4 +12,6 @@ public interface UserService {
     UserResponseDto findUserById(Long userId);
 
     UserUpdateResponseDto updateUser(Long userId, UserUpdateRequestDto userUpdateRequestDto);
+
+    String deleteUserById(Long userId);
 }

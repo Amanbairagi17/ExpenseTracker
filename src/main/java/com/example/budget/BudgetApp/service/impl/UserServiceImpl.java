@@ -6,9 +6,9 @@ import com.example.budget.BudgetApp.dto.UserUpdateRequestDto;
 import com.example.budget.BudgetApp.dto.UserUpdateResponseDto;
 import com.example.budget.BudgetApp.entity.User;
 import com.example.budget.BudgetApp.exception.UserNotFoundException;
-import com.example.budget.BudgetApp.mapper.Impl.UserRequestMapper;
 import com.example.budget.BudgetApp.mapper.Impl.UserResponseMapper;
 import com.example.budget.BudgetApp.mapper.Impl.UserUpdateResponseMapper;
+import com.example.budget.BudgetApp.mapper.Mapper;
 import com.example.budget.BudgetApp.repository.UserRepository;
 import com.example.budget.BudgetApp.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final UserRequestMapper userRequestMapper;
+    private final Mapper<User, UserRequestDto> userRequestMapper;
     private final UserResponseMapper userResponseMapper;
     private final UserUpdateResponseMapper userUpdateResponseMapper;
     @Override
@@ -36,6 +36,15 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto findUserById(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User Not Found with Id " + userId));
         return userResponseMapper.mapTo(user);
+    }
+
+    @Override
+    public String deleteUserById(Long userId) {
+
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User Not Exist!!"));
+        userRepository.deleteById(userId);
+
+        return "User deleted successfully with ID " + userId;
     }
 
     @Override

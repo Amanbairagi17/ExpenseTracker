@@ -23,6 +23,7 @@ public class UserController {
         return "First user of this app";
     }
 
+
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long userId){
         UserResponseDto userResponseDto = userService.findUserById(userId);
@@ -40,5 +41,12 @@ public class UserController {
                                                             @RequestBody UserUpdateRequestDto userUpdateRequestDto){
         UserUpdateResponseDto userUpdateResponseDto = userService.updateUser(userId, userUpdateRequestDto);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(userUpdateResponseDto);
+    }
+
+    @DeleteMapping("delete/{userId}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long userId){
+        String deletedUser = userService.deleteUserById(userId);
+        return ResponseEntity.ok(deletedUser);
+
     }
 }
