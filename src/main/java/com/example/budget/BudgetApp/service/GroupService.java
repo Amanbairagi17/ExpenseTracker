@@ -10,4 +10,6 @@ public interface GroupService {
     GroupResponseDto findGroupById(Long groupId);
 
     GroupResponseDto updateGroupById(Long groupId, GroupUpdateRequestDto groupUpdateRequestDto);
+
+    String deleteGroupById(Long groupId);
 }

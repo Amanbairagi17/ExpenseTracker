@@ -4,6 +4,7 @@ package com.example.budget.BudgetApp.controller;
 import com.example.budget.BudgetApp.dto.GroupRequestDto;
 import com.example.budget.BudgetApp.dto.GroupResponseDto;
 import com.example.budget.BudgetApp.dto.GroupUpdateRequestDto;
+import com.example.budget.BudgetApp.entity.Group;
 import com.example.budget.BudgetApp.service.GroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -35,5 +36,11 @@ public class GroupController {
 
         GroupResponseDto groupResponseDto = groupService.updateGroupById(groupId, groupUpdateRequestDto);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(groupResponseDto);
+    }
+
+    @DeleteMapping("/{groupId}")
+    public ResponseEntity<String> deleteGroup(@PathVariable Long groupId){
+        String deletedGroup = groupService.deleteGroupById(groupId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(deletedGroup);
     }
 }

@@ -25,6 +25,14 @@ public class GroupServiceImpl implements GroupService {
     private final GroupRepository groupRepository;
     private final GroupRequestMapper groupRequestMapper;
     private final GroupResponseMapper groupResponseMapper;
+
+    @Override
+    public String deleteGroupById(Long groupId) {
+        Group group = groupRepository.findById(groupId).orElseThrow(() -> new GroupNotFoundException("Group Not Exist With ID " +groupId ));
+        groupRepository.deleteById(groupId);
+        return "Group deleted successfully with Id " +group.getGroupId();
+    }
+
     private final GroupUpdateRequestMapper groupUpdateRequestMapper;
     private final UserRepository userRepository;
 
