@@ -9,6 +9,5 @@ import java.util.List;
 public class GroupRequestDto {
     private String groupName;
     private User groupAdmin;
-    private List<User> members;
     private String groupDescription;
 }

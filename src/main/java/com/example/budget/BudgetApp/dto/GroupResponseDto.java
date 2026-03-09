@@ -10,7 +10,6 @@ import java.util.List;
 public class GroupResponseDto {
     private Long groupId;
     private String groupName;
-    private User groupAdmin;
-    private List<String> members;
+    private String groupAdminName;
     private String groupDescription;
 }
