@@ -14,7 +14,7 @@ public class UserResponseMapper implements Mapper<User, UserResponseDto> {
     private final ModelMapper modelMapper;
 
     @Override
-    public UserResponseDto mapTo(User user) {
+    public  UserResponseDto mapTo(User user) {
         return modelMapper.map(user, UserResponseDto.class);
     }
 

@@ -4,12 +4,14 @@ package com.example.budget.BudgetApp.controller;
 import com.example.budget.BudgetApp.dto.GroupRequestDto;
 import com.example.budget.BudgetApp.dto.GroupResponseDto;
 import com.example.budget.BudgetApp.dto.GroupUpdateRequestDto;
-import com.example.budget.BudgetApp.entity.Group;
+import com.example.budget.BudgetApp.helper.AppConstant;
 import com.example.budget.BudgetApp.service.GroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "group")
@@ -24,6 +26,19 @@ public class GroupController {
         return ResponseEntity.status(HttpStatus.CREATED).body(groupResponseDto);
     }
 
+    @GetMapping
+    public ResponseEntity<List<GroupResponseDto>> getAllGroups(@RequestParam(value = "page", defaultValue = AppConstant.DEFAULT_PAGE) int page,
+                                                               @RequestParam(value = "size", defaultValue = AppConstant.DEFAULT_SIZE) int size){
+        List<GroupResponseDto> listOfGroups = groupService.getAllByPagination(page, size);
+        return ResponseEntity.status(HttpStatus.OK).body(listOfGroups);
+
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<GroupResponseDto>> getAllGroup(){
+        List<GroupResponseDto> listOfGroups = groupService.getAllGroup();
+        return ResponseEntity.status(HttpStatus.OK).body(listOfGroups);
+    }
     @GetMapping("/{groupId}")
     public ResponseEntity<GroupResponseDto> findByGroupWithId(@PathVariable Long groupId){
         GroupResponseDto groupResponseDto = groupService.findGroupById(groupId);
@@ -43,4 +58,5 @@ public class GroupController {
         String deletedGroup = groupService.deleteGroupById(groupId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(deletedGroup);
     }
+
 }

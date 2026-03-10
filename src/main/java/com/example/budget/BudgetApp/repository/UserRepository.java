@@ -1,6 +1,8 @@
 package com.example.budget.BudgetApp.repository;
 
 import com.example.budget.BudgetApp.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -12,5 +14,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     void deleteById(Long userId);
 
     @Query("SELECT u FROM User u")
-    List<User> getAllUsers();
+    List<User> getAllUsers(Pageable pageable);
+
+    Page<User> findAll(Pageable pageable);
 }

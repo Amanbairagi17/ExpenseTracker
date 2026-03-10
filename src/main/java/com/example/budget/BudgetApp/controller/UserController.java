@@ -4,8 +4,7 @@ package com.example.budget.BudgetApp.controller;
 import com.example.budget.BudgetApp.dto.UserRequestDto;
 import com.example.budget.BudgetApp.dto.UserResponseDto;
 import com.example.budget.BudgetApp.dto.UserUpdateRequestDto;
-import com.example.budget.BudgetApp.dto.UserUpdateResponseDto;
-import com.example.budget.BudgetApp.entity.User;
+import com.example.budget.BudgetApp.helper.AppConstant;
 import com.example.budget.BudgetApp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,8 +26,11 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUser(){
-        List<User> users = userService.getAllUsers();
+    public ResponseEntity<List<UserResponseDto>> getAllUser(@RequestParam(value = "page", defaultValue = AppConstant.DEFAULT_PAGE) int page,
+                                                            @RequestParam(value = "size", defaultValue = AppConstant.DEFAULT_SIZE) int size){
+
+        List<UserResponseDto> users = userService.getAllUserByPagination(page, size);
+
         return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
@@ -45,9 +47,9 @@ public class UserController {
     }
 
     @PutMapping("/update/{userId}")
-    public ResponseEntity<UserUpdateResponseDto> updateUser(@PathVariable Long userId,
+    public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long userId,
                                                             @RequestBody UserUpdateRequestDto userUpdateRequestDto){
-        UserUpdateResponseDto userUpdateResponseDto = userService.updateUser(userId, userUpdateRequestDto);
+        UserResponseDto userUpdateResponseDto = userService.updateUser(userId, userUpdateRequestDto);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(userUpdateResponseDto);
     }
 
