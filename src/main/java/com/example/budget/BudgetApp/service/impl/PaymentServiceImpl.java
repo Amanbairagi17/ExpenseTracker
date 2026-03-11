@@ -39,21 +39,30 @@ public class PaymentServiceImpl implements PaymentService {
         Group group = groupRepository.findById(paymentRequestDto.getGroupId()).orElse(null);
 
         Payment payment = paymentRequestMapper.mapFrom(paymentRequestDto);
+
+        payment.setUser(user);
+        payment.setGroup(group);
         Payment savedPayment = paymentRepository.save(payment);
         PaymentResponseDto response = paymentResponseMapper.mapTo(savedPayment);
 
-        response.setUserId(getUserID(paymentRequestDto));
+        response.setUserId(user.getUserId());
         response.setGroupId(group.getGroupId());
         response.setAddedDate(payment.getCreatedAt());
+
+
 
         return response;
     }
 
 
-
+    @Override
     public PaymentResponseDto findPaymentById(Long paymentId){
         Payment payment = paymentRepository.findById(paymentId).orElseThrow(() -> new PaymentNotFoundException("Payment not exist!"));
         PaymentResponseDto response = paymentResponseMapper.mapTo(payment);
+
+        response.setUserId(payment.getUser().getUserId());
+        response.setGroupId(payment.getGroup().getGroupId());
+        response.setAddedDate(payment.getCreatedAt());
 
         return response;
 
@@ -64,20 +73,21 @@ public class PaymentServiceImpl implements PaymentService {
             throw new UserNotFoundException("Invalid userId in payment request, User does not exist!!");
         }
 
-        if(!groupRepository.existsById(paymentRequestDto.getGroupId())) {
-            throw new GroupNotFoundException("Invalid groupId in payment request, Group not exist!!");
+        Group group = groupRepository.findById(paymentRequestDto
+                .getGroupId())
+                .orElseThrow(() -> new GroupNotFoundException("Invalid groupId in payment request, Group not exist!!"));
+
+        boolean isUserPresent = false;
+        for(User user : group.getMembers()) {
+            if(user.getUserId().equals(paymentRequestDto.getUserId())) {
+                isUserPresent = true;
+                break;
+            }
         }
+        if(!isUserPresent) throw new GroupNotFoundException("The user with user id : " +paymentRequestDto.getUserId()+ " should be present in present in group with group id " +  paymentRequestDto.getGroupId()+ " to make payment");
     }
 
-    private Long getUserID(PaymentRequestDto paymentRequestDto){
-        User user = userRepository.findById(paymentRequestDto.getUserId()).orElseThrow(() -> new UserNotFoundException("User not found exception !!"));
-        return user.getUserId();
-    }
 
-    private Long getGroupID(PaymentRequestDto paymentRequestDto){
-        Group group = groupRepository.findById(paymentRequestDto.getGroupId()).orElseThrow(() -> new GroupNotFoundException("Group not found !!"));
-        return group.getGroupId();
-    }
 
 
 }

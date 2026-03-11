@@ -2,8 +2,6 @@ package com.example.budget.BudgetApp.controller;
 
 import com.example.budget.BudgetApp.dto.PaymentRequestDto;
 import com.example.budget.BudgetApp.dto.PaymentResponseDto;
-import com.example.budget.BudgetApp.mapper.Impl.PaymentRequestMapper;
-import com.example.budget.BudgetApp.mapper.Impl.PaymentResponseMapper;
 import com.example.budget.BudgetApp.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
