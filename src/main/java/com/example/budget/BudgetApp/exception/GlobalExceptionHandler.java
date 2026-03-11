@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler
+    public ResponseEntity<String> paymentNotFoundException(PaymentNotFoundException paymentNotFoundException){
+        return ResponseEntity.badRequest().body(paymentNotFoundException.getMessage());
+    }
 
     @ExceptionHandler(UserNotFoundException.class)
     public  ResponseEntity<String> userNotFoundException(UserNotFoundException userNotFoundException){

@@ -4,8 +4,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "payments")
@@ -30,10 +31,11 @@ public class Payment {
     private double amount;
 
     @Column(nullable = false)
-    private LocalDateTime paymentDateTime;
+    private LocalDate paymentDate;
 
     @Column(nullable = false)
-    private LocalDateTime createdAt;
+    @CreationTimestamp
+    private LocalDate createdAt;
 
     @Column(nullable = false)
     private String paymentDescription;

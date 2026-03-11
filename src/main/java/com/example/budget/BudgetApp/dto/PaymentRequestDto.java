@@ -1,11 +1,8 @@
 package com.example.budget.BudgetApp.dto;
 
-import com.example.budget.BudgetApp.entity.Group;
-import com.example.budget.BudgetApp.entity.User;
 import lombok.Data;
-import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 public class PaymentRequestDto {
@@ -13,5 +10,5 @@ public class PaymentRequestDto {
     private Long groupId;
     private double amount;
     private String paymentDescription;
-    private LocalDateTime paymentDateTime;
+    private LocalDate paymentDate;
 }
