@@ -6,6 +6,7 @@ import com.example.budget.BudgetApp.dto.UserResponseDto;
 import com.example.budget.BudgetApp.dto.UserUpdateRequestDto;
 import com.example.budget.BudgetApp.helper.AppConstant;
 import com.example.budget.BudgetApp.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,14 +42,14 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDto> createUser(@RequestBody UserRequestDto userRequestDto){
+    public ResponseEntity<UserResponseDto> createUser(@Valid @RequestBody UserRequestDto userRequestDto){
         UserResponseDto userResponseDto = userService.createUser(userRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDto);
     }
 
     @PutMapping("/update/{userId}")
     public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long userId,
-                                                            @RequestBody UserUpdateRequestDto userUpdateRequestDto){
+                                                            @Valid @RequestBody UserUpdateRequestDto userUpdateRequestDto){
         UserResponseDto userUpdateResponseDto = userService.updateUser(userId, userUpdateRequestDto);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(userUpdateResponseDto);
     }

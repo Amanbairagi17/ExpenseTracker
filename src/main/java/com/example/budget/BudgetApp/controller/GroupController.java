@@ -6,6 +6,7 @@ import com.example.budget.BudgetApp.dto.GroupResponseDto;
 import com.example.budget.BudgetApp.dto.GroupUpdateRequestDto;
 import com.example.budget.BudgetApp.helper.AppConstant;
 import com.example.budget.BudgetApp.service.GroupService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class GroupController {
     private final GroupService groupService;
 
     @PostMapping
-    public ResponseEntity<GroupResponseDto> createGroup(@RequestBody GroupRequestDto groupRequestDto){
+    public ResponseEntity<GroupResponseDto> createGroup(@Valid @RequestBody GroupRequestDto groupRequestDto){
         GroupResponseDto groupResponseDto = groupService.createGroup(groupRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(groupResponseDto);
     }
@@ -47,7 +48,7 @@ public class GroupController {
 
     @PutMapping("/{groupId}")
     public ResponseEntity<GroupResponseDto> updateGroupById(@PathVariable Long groupId,
-                                                            @RequestBody GroupUpdateRequestDto groupUpdateRequestDto){
+                                                           @Valid @RequestBody GroupUpdateRequestDto groupUpdateRequestDto){
 
         GroupResponseDto groupResponseDto = groupService.updateGroupById(groupId, groupUpdateRequestDto);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(groupResponseDto);

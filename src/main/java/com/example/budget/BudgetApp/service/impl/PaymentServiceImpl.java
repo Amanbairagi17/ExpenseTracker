@@ -2,6 +2,7 @@ package com.example.budget.BudgetApp.service.impl;
 
 import com.example.budget.BudgetApp.dto.PaymentRequestDto;
 import com.example.budget.BudgetApp.dto.PaymentResponseDto;
+import com.example.budget.BudgetApp.dto.PaymentUpdateDto;
 import com.example.budget.BudgetApp.entity.Group;
 import com.example.budget.BudgetApp.entity.Payment;
 import com.example.budget.BudgetApp.entity.User;
@@ -88,6 +89,19 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
 
+    @Override
+    public String deletePayment(Long paymentId) {
+        Payment payment = paymentRepository.findById(paymentId).orElseThrow(() -> new PaymentNotFoundException("Transaction not exit by Id : " +paymentId));
+        paymentRepository.deleteById(payment.getTransactionId());
+        return "Transaction successfully deleted with  Id : " +paymentId;
+    }
 
+    @Override
+    public PaymentResponseDto updateTransaction(Long paymentId, PaymentUpdateDto paymentUpdateDto) {
+        Payment payment = paymentRepository.findById(paymentId).orElseThrow(() -> new PaymentNotFoundException("Transaction not exit by Id : " +paymentId));
+        payment.setPaymentDescription(paymentUpdateDto.getPaymentDescription());
+        payment.setPaymentDate(paymentUpdateDto.getPaymentDate());
 
+        return paymentResponseMapper.mapTo(payment);
+    }
 }
