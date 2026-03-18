@@ -14,6 +14,8 @@ import com.example.budget.BudgetApp.repository.GroupRepository;
 import com.example.budget.BudgetApp.repository.UserRepository;
 import com.example.budget.BudgetApp.service.GroupService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,12 +30,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GroupServiceImpl implements GroupService {
 
+    private static final Logger logger = LoggerFactory.getLogger(GroupServiceImpl.class);
+
     private final GroupRepository groupRepository;
     private final GroupRequestMapper groupRequestMapper;
     private final GroupResponseMapper groupResponseMapper;
+    private final GroupUpdateRequestMapper groupUpdateRequestMapper;
+    private final UserRepository userRepository;
 
     @Override
     public List<GroupResponseDto> getAllByPagination(int page, int size) {
+
+        logger.info("START -> Fetch paginated groups | page: {}, size: {}", page, size);
         Sort sort = Sort.by(Sort.Direction.ASC, "groupName");
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<Group> groupPage = groupRepository.findAll(pageable);
@@ -42,11 +50,13 @@ public class GroupServiceImpl implements GroupService {
                 .map(groupResponseMapper::mapTo)
                 .collect(Collectors.toList());
 
+        logger.info("END -> Fetched {} groups (paginated)", groupResponseDtos.size());
         return groupResponseDtos;
     }
 
     @Override
     public List<GroupResponseDto> getAllGroup() {
+        logger.info("START -> Fetch all groups");
         List<Group> groupList = groupRepository.findAll();
         List<GroupResponseDto> list = new ArrayList<>();
 
@@ -58,23 +68,39 @@ public class GroupServiceImpl implements GroupService {
 //            list.add(response);
         }
 
+        logger.info("END -> Total groups fetched: {}", list.size());
         return list;
     }
 
     @Override
     public String deleteGroupById(Long groupId) {
+
+        logger.info("START -> Delete group with ID: {}", groupId);
+
         Group group = groupRepository.findById(groupId).orElseThrow(() -> new GroupNotFoundException("Group Not Exist With ID " +groupId ));
         groupRepository.deleteById(groupId);
+
+        logger.info("END -> Group deleted successfully with ID: {}", groupId);
+
         return "Group deleted successfully with Id " +group.getGroupId();
     }
 
-    private final GroupUpdateRequestMapper groupUpdateRequestMapper;
-    private final UserRepository userRepository;
 
     @Override
     public GroupResponseDto updateGroupById(Long groupId, GroupUpdateRequestDto groupUpdateRequestDto) {
-        Group group = groupRepository.findById(groupId).orElseThrow(() -> new GroupNotFoundException("Group not exist!!"));
-        User user = userRepository.findById(group.getGroupAdmin().getUserId()).orElseThrow(() -> new UserNotFoundException("This admin is not exist!!"));
+        logger.info("START -> Update group with ID: {}", groupId);
+
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() ->{
+                    logger.warn("Admin not found for group ID: {}", groupId);
+                   return new GroupNotFoundException("Group not exist!!");
+                });
+
+        User user = userRepository.findById(group.getGroupAdmin().getUserId())
+                .orElseThrow(() -> {
+                    logger.warn("Admin not found for group ID: {}", groupId);
+                    return new UserNotFoundException("This admin is not exist!!");
+                });
 
         group.setGroupName(groupUpdateRequestDto.getGroupName());
         group.setGroupDescription(groupUpdateRequestDto.getGroupDescription());
