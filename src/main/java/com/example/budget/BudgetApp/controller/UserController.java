@@ -6,6 +6,7 @@ import com.example.budget.BudgetApp.dto.UserResponseDto;
 import com.example.budget.BudgetApp.dto.UserUpdateRequestDto;
 import com.example.budget.BudgetApp.helper.AppConstant;
 import com.example.budget.BudgetApp.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -25,10 +26,9 @@ public class UserController {
     private static final Logger logger =  LoggerFactory.getLogger(UserController.class);
 
     @GetMapping("check")
-
-    public String user(){
+    public String user(HttpServletRequest request){
         logger.info("Health check endpoint called");
-        return "First user of this app";
+        return "First user of this app with session Id : " +request.getSession().getId();
     }
 
     @GetMapping

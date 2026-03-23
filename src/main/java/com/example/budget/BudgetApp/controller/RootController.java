@@ -1,6 +1,8 @@
 package com.example.budget.BudgetApp.controller;
 
 
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -8,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RestController
-@RequestMapping(path = "home")
+@RequestMapping(path = "/home")
 
 public class RootController {
 
@@ -34,5 +36,10 @@ public class RootController {
         logger.info("END -> Health Check successful");
 
         return response;
+    }
+
+    @GetMapping("/csrf-token")
+    public CsrfToken getCsrfToken(HttpServletRequest request){
+        return (CsrfToken) request.getAttribute("_csrf");
     }
 }
