@@ -12,4 +12,6 @@ public class UserRequestDto {
 
     @Email(message = "Please enter valid email")
     private String email;
+
+    private String password;
 }

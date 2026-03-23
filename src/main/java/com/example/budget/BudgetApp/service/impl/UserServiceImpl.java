@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final Mapper<User, UserRequestDto> userRequestMapper;
     private final UserResponseMapper userResponseMapper;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public List<UserResponseDto> getAllUserByPagination(int page, int size) {
@@ -74,6 +76,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto createUser(UserRequestDto userRequestDto) {
         User user =  userRequestMapper.mapFrom(userRequestDto);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         User savedUser = userRepository.save(user);
         return userResponseMapper.mapTo(savedUser);
     }
