@@ -34,8 +34,6 @@ public class SecurityConfig {
                     request.requestMatchers("/auth").permitAll();
                     request.anyRequest().authenticated();
                 })
-
-
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .userDetailsService(userDetailsService);
@@ -48,6 +46,8 @@ public class SecurityConfig {
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
+
     /**
      * This is part of authentication that allow user to authenticate for hard coded values
      * As much as user you passed in  InMemoryUserDetailsManager(user..). Then they all can access
