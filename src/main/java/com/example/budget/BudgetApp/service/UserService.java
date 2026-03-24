@@ -17,4 +17,6 @@ public interface UserService {
     String deleteUserById(Long userId);
 
     List<UserResponseDto> getAllUserByPagination(int page, int size);
+
+    String verifyUser(UserRequestDto user);
 }

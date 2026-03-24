@@ -32,4 +32,9 @@ public class AuthController {
         logger.info("return response of created user with id");
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDto);
     }
+
+    @PostMapping("/login")
+    public String login(@Valid @RequestBody UserRequestDto user){
+        return userService.verifyUser(user);
+    }
 }

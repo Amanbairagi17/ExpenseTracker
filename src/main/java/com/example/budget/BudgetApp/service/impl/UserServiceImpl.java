@@ -9,12 +9,17 @@ import com.example.budget.BudgetApp.mapper.Impl.UserResponseMapper;
 import com.example.budget.BudgetApp.mapper.Impl.UserUpdateRequestMapper;
 import com.example.budget.BudgetApp.mapper.Mapper;
 import com.example.budget.BudgetApp.repository.UserRepository;
+import com.example.budget.BudgetApp.service.JWTService;
 import com.example.budget.BudgetApp.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -30,6 +36,10 @@ public class UserServiceImpl implements UserService {
     private final Mapper<User, UserRequestDto> userRequestMapper;
     private final UserResponseMapper userResponseMapper;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final AuthenticationManager authManager;
+    private final JWTService jwtService;
+
+
 
     @Override
     public List<UserResponseDto> getAllUserByPagination(int page, int size) {
@@ -71,6 +81,18 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(userId);
 
         return "User deleted successfully with ID " + userId;
+    }
+
+    @Override
+    public String verifyUser(UserRequestDto user) {
+        log.info(user.toString());
+        Authentication authentication = authManager
+                .authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+        if(authentication.isAuthenticated()) {
+            return jwtService.generateToken(user.getEmail());
+        }
+
+        return "Login Failed";
     }
 
     @Override
