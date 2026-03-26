@@ -3,6 +3,8 @@ package com.example.budget.BudgetApp.controller;
 import com.example.budget.BudgetApp.dto.UserRequestDto;
 import com.example.budget.BudgetApp.dto.UserResponseDto;
 import com.example.budget.BudgetApp.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -17,13 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = "auth")
 @RequiredArgsConstructor
-
+@Tag(name = "Auth Controller", description = "Controller for authorizing users")
 public class AuthController {
 
     private final UserService userService;
     private static final Logger logger =  LoggerFactory.getLogger(UserController.class);
 
     @PostMapping
+    @Operation(summary = "create user and register yourself")
     public ResponseEntity<UserResponseDto> createUser(@Valid @RequestBody UserRequestDto userRequestDto){
 
         logger.info("Call user service for creating user");
@@ -34,6 +37,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
+    @Operation(summary = "Login user in application")
     public String login(@Valid @RequestBody UserRequestDto user){
         return userService.verifyUser(user);
     }
