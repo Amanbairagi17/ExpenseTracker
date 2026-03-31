@@ -1,6 +1,6 @@
 package com.example.budget.BudgetApp.mapper.Impl;
 
-import com.example.budget.BudgetApp.dto.UserRequestDto;
+import com.example.budget.BudgetApp.dto.SignupDto;
 import com.example.budget.BudgetApp.entity.User;
 import com.example.budget.BudgetApp.mapper.Mapper;
 import lombok.RequiredArgsConstructor;
@@ -9,16 +9,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class UserRequestMapper implements Mapper<User, UserRequestDto> {
+public class UserRequestMapper implements Mapper<User, SignupDto> {
     private final ModelMapper modelMapper;
 
     @Override
-    public UserRequestDto mapTo(User user) {
-        return modelMapper.map(user, UserRequestDto.class);
+    public SignupDto mapTo(User user) {
+        return modelMapper.map(user, SignupDto.class);
     }
 
     @Override
-    public User mapFrom(UserRequestDto userRequestDto) {
+    public User mapFrom(SignupDto userRequestDto) {
         return modelMapper.map(userRequestDto, User.class);
     }
 }

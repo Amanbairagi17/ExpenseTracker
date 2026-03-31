@@ -55,4 +55,8 @@ public class User implements UserDetails {
     public String getUserName() {
         return userName;
     }
+
+    public void setName(String name) {
+        this.userName = name;
+    }
 }

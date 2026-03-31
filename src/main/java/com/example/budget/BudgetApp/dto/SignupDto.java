@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class UserRequestDto {
+public class SignupDto {
     @NotEmpty(message = "User name required") @Size(min = 4, max = 20)
     private String userName;
 

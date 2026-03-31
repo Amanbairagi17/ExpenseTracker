@@ -1,7 +1,6 @@
 package com.example.budget.BudgetApp.controller;
 
 
-import com.example.budget.BudgetApp.dto.UserRequestDto;
 import com.example.budget.BudgetApp.dto.UserResponseDto;
 import com.example.budget.BudgetApp.dto.UserUpdateRequestDto;
 import com.example.budget.BudgetApp.helper.AppConstant;

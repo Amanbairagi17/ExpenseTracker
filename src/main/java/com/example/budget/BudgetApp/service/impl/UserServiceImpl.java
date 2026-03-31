@@ -1,6 +1,6 @@
 package com.example.budget.BudgetApp.service.impl;
 
-import com.example.budget.BudgetApp.dto.UserRequestDto;
+import com.example.budget.BudgetApp.dto.SignupDto;
 import com.example.budget.BudgetApp.dto.UserResponseDto;
 import com.example.budget.BudgetApp.dto.UserUpdateRequestDto;
 import com.example.budget.BudgetApp.entity.User;
@@ -18,12 +18,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +30,7 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final Mapper<User, UserRequestDto> userRequestMapper;
+    private final Mapper<User, SignupDto> userRequestMapper;
     private final UserResponseMapper userResponseMapper;
     private final BCryptPasswordEncoder passwordEncoder;
     private final AuthenticationManager authManager;
@@ -81,25 +78,5 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(userId);
 
         return "User deleted successfully with ID " + userId;
-    }
-
-    @Override
-    public String verifyUser(UserRequestDto user) {
-        log.info(user.toString());
-        Authentication authentication = authManager
-                .authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
-        if(authentication.isAuthenticated()) {
-            return jwtService.generateToken(user.getEmail());
-        }
-
-        return "Login Failed";
-    }
-
-    @Override
-    public UserResponseDto createUser(UserRequestDto userRequestDto) {
-        User user =  userRequestMapper.mapFrom(userRequestDto);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        User savedUser = userRepository.save(user);
-        return userResponseMapper.mapTo(savedUser);
     }
 }
